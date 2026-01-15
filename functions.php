@@ -23,6 +23,72 @@ include('custom-shortcodes.php');
  * @return int (Maybe) modified excerpt length.
  */
 
+/* =========================
+   OPEN GRAPH DINÂMICO
+========================= */
+function add_dynamic_og_image()
+{
+
+    if (is_admin() || !is_singular()) {
+        return;
+    }
+
+    $post_id = get_queried_object_id();
+    if (!$post_id) return;
+
+    $title = get_the_title($post_id);
+    $url   = get_permalink($post_id);
+
+    $description = get_the_excerpt($post_id);
+    if (!$description) {
+        $description = wp_trim_words(
+            wp_strip_all_tags(get_post_field('post_content', $post_id)),
+            30
+        );
+    }
+
+    if (function_exists('get_field')) {
+        $acf_desc = get_field('resumo', $post_id);
+        if ($acf_desc) {
+            $description = $acf_desc;
+        }
+    }
+
+    $image = '';
+
+    if (has_post_thumbnail($post_id)) {
+        $image = get_the_post_thumbnail_url($post_id, 'full');
+    }
+
+    if (!$image) {
+        $meta = get_post_meta($post_id, 'og_image', true);
+        if ($meta) {
+            $image = is_numeric($meta)
+                ? wp_get_attachment_image_url((int)$meta, 'full')
+                : esc_url_raw($meta);
+        }
+    }
+
+    if (!$image) {
+        $image = 'https://igesdf.org.br/wp-content/uploads/2022/02/logo-home-1.png';
+    }
+
+    $image = esc_url($image);
+    echo '<meta property="og:title" content="' . esc_attr($title) . '">' . "\n";
+    echo '<meta property="og:image" content="' . $image . '">' . "\n";
+    echo '<meta property="og:description" content="' . esc_attr($description) . '">' . "\n";
+    echo '<meta name="description" content="' . esc_attr($description) . '">' . "\n";
+    echo '<meta property="og:url" content="' . esc_url($url) . '">' . "\n";
+    echo '<meta property="og:site_name" content="' . esc_attr(get_bloginfo('name')) . '">' . "\n";
+}
+
+/* =========================
+   TITLE DINÂMICO
+========================= */
+add_filter('pre_get_document_title', function ($title) {
+    return is_singular() ? get_the_title() : $title;
+}, 99);
+add_action('wp_head', 'add_dynamic_og_image',5);
 // // This theme uses wp_nav_menu() in two locations.
 register_nav_menus(array(
     'menu_topo'  => __('Menu Topo'),
@@ -32,7 +98,6 @@ register_nav_menus(array(
 ));
 
 // VLIBRAS
-
 function vlibras_widget()
 {
     echo <<<EOF
@@ -59,7 +124,6 @@ add_action('wp_footer', 'vlibras_widget');
 add_action('wp_enqueue_scripts', 'vlibras_enqueue');
 
 // Menu Superior
-
 add_action('wp_enqueue_scripts', function () {
     if (!class_exists('\Elementor\Core\Files\CSS\Post')) {
         return;
@@ -83,7 +147,6 @@ function remove_jquery_migrate($scripts)
 add_action('wp_default_scripts', 'remove_jquery_migrate');
 
 // Elementor Custom Post Types
-
 function create_posttypes()
 {
     /* Post tipo Ato */
@@ -190,12 +253,10 @@ add_action('init', 'create_posttypes');
 add_filter('tablepress_wp_search_integration', '__return_false');
 
 // Cache
-
 function get_cache_file_name()
 {
     return 'cache_' . md5($_SERVER['REQUEST_URI']) . '.html';
 }
-
 
 function serve_cache()
 {
@@ -211,15 +272,13 @@ function serve_cache()
     }
 }
 
-
 function cache_output()
 {
     if (is_user_logged_in()) {
-        return false;
+        return;
     }
 
     ob_start(function ($buffer) {
-        // Adiciona um comentário no final do buffer
         $timestamp = date('Y-m-d H:i:s');
         $buffer .= "\n<!-- Página cacheada em $timestamp -->";
         $buffer .= "\n<!-- Desenvolvedor: Marcos Cordeiro - Email: marcosc974@gmail.com -->";
@@ -241,73 +300,7 @@ function clear_all_cache()
         }
     }
 }
-/* =========================
-   OPEN GRAPH DINÂMICO
-========================= */
-function add_dynamic_og_image()
-{
 
-    if (is_admin() || !is_singular()) {
-        return;
-    }
-
-    $post_id = get_queried_object_id();
-    if (!$post_id) return;
-
-    $title = get_the_title($post_id);
-    $url   = get_permalink($post_id);
-
-    $description = get_the_excerpt($post_id);
-    if (!$description) {
-        $description = wp_trim_words(
-            wp_strip_all_tags(get_post_field('post_content', $post_id)),
-            30
-        );
-    }
-
-    if (function_exists('get_field')) {
-        $acf_desc = get_field('resumo', $post_id);
-        if ($acf_desc) {
-            $description = $acf_desc;
-        }
-    }
-
-    $image = '';
-
-    if (has_post_thumbnail($post_id)) {
-        $image = get_the_post_thumbnail_url($post_id, 'full');
-    }
-
-    if (!$image) {
-        $meta = get_post_meta($post_id, 'og_image', true);
-        if ($meta) {
-            $image = is_numeric($meta)
-                ? wp_get_attachment_image_url((int)$meta, 'full')
-                : esc_url_raw($meta);
-        }
-    }
-
-    if (!$image) {
-        $image = 'https://igesdf.org.br/wp-content/uploads/2022/02/logo-home-1.png';
-    }
-
-    $image = esc_url($image);
-    echo '<meta property="og:title" content="' . esc_attr($title) . '">' . "\n";
-    echo '<meta property="og:image" content="' . $image . '">' . "\n";
-    echo '<meta property="og:description" content="' . esc_attr($description) . '">' . "\n";
-    echo '<meta name="description" content="' . esc_attr($description) . '">' . "\n";
-    echo '<meta property="og:url" content="' . esc_url($url) . '">' . "\n";
-    echo '<meta property="og:site_name" content="' . esc_attr(get_bloginfo('name')) . '">' . "\n";
-}
-
-/* =========================
-   TITLE DINÂMICO
-========================= */
-add_filter('pre_get_document_title', function ($title) {
-    return is_singular() ? get_the_title() : $title;
-}, 99);
-
-add_action('wp_head', 'add_dynamic_og_image', 5);
 add_action('save_post', 'clear_all_cache');
 add_action('deleted_post', 'clear_all_cache');
 add_action('edit_post', 'clear_all_cache');
