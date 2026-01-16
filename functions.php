@@ -80,6 +80,8 @@ function add_dynamic_og_image()
     echo '<meta name="description" content="' . esc_attr($description) . '">' . "\n";
     echo '<meta property="og:url" content="' . esc_url($url) . '">' . "\n";
     echo '<meta property="og:site_name" content="' . esc_attr(get_bloginfo('name')) . '">' . "\n";
+    echo '<meta property="og:type" content="article">' . "\n";
+    echo '<meta property="og:logo" content="https://igesdf.org.br/wp-content/uploads/2022/02/logo-home-1.png">' . "\n";
 }
 
 /* =========================
@@ -158,7 +160,7 @@ function create_posttypes()
         ],
         'public' => true,
         'has_archive' => false,
-        'menu_icon'   => 'dashicons-media-spreadsheet',
+        'menu_icon'   => 'dashicons-chart-area',
         'rewrite' => ['slug' => 'ato'],
         'can_export' => true,
         'taxonomies' => ['category'],
@@ -174,7 +176,7 @@ function create_posttypes()
         ],
         'public' => true,
         'has_archive' => true,
-        'menu_icon'   => 'dashicons-editor-table',
+        'menu_icon'   => 'dashicons-megaphone',
         'rewrite' => ['slug' => 'noticia'],
         'can_export' => true,
         'publicly_queryable' => true,
