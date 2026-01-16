@@ -260,7 +260,7 @@ function get_cache_file_name()
 
 function serve_cache()
 {
-    if (is_user_logged_in()) {
+    if (is_user_logged_in() || is_singular()) {
         return false;
     }
     $cache_file = ABSPATH . 'cache/'  . get_cache_file_name();
@@ -274,7 +274,7 @@ function serve_cache()
 
 function cache_output()
 {
-    if (is_user_logged_in()) {
+    if (is_user_logged_in() || is_singular()) {
         return;
     }
 
