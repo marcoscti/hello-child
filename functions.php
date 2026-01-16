@@ -234,7 +234,7 @@ function create_posttypes()
     ]);
     add_post_type_support('producao', 'thumbnail');
 
-    /* Post tipo processo seletivo */
+    /* Post tipo processo seletivo 
     register_post_type('processo', [
         'labels' => [
             'name' => __('Processo Seletivo'),
@@ -249,6 +249,7 @@ function create_posttypes()
         'taxonomies' => ['category'],
     ]);
     add_post_type_support('processo', 'thumbnail');
+    */
 }
 add_action('init', 'create_posttypes');
 
