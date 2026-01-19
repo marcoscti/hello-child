@@ -70,18 +70,22 @@ function add_dynamic_og_image()
     }
 
     if (!$image) {
-        $image = 'https://igesdf.org.br/wp-content/uploads/2022/02/logo-home-1.png';
+        $image = 'https://igesdf.org.br/wp-content/uploads/2026/01/thumb.webp';
     }
 
     $image = esc_url($image);
+    
+// Agora, sem entidades escapadas:
     echo '<meta property="og:title" content="' . esc_attr($title) . '">' . "\n";
     echo '<meta property="og:image" content="' . $image . '">' . "\n";
+    echo '<meta property="og:image:width" content="1200">' . "\n";
+    echo '<meta property="og:image:height" content="630">' . "\n";
     echo '<meta property="og:description" content="' . esc_attr($description) . '">' . "\n";
     echo '<meta name="description" content="' . esc_attr($description) . '">' . "\n";
     echo '<meta property="og:url" content="' . esc_url($url) . '">' . "\n";
     echo '<meta property="og:site_name" content="' . esc_attr(get_bloginfo('name')) . '">' . "\n";
     echo '<meta property="og:type" content="article">' . "\n";
-    echo '<meta property="og:logo" content="https://igesdf.org.br/wp-content/uploads/2022/02/logo-home-1.png">' . "\n";
+
 }
 
 /* =========================
@@ -90,7 +94,7 @@ function add_dynamic_og_image()
 add_filter('pre_get_document_title', function ($title) {
     return is_singular() ? get_the_title() : $title;
 }, 99);
-add_action('wp_head', 'add_dynamic_og_image',5);
+add_action('wp_head', 'add_dynamic_og_image',3);
 // // This theme uses wp_nav_menu() in two locations.
 register_nav_menus(array(
     'menu_topo'  => __('Menu Topo'),
