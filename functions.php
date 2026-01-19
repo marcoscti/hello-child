@@ -277,7 +277,7 @@ function serve_cache()
 
 function cache_output()
 {
-    if (is_user_logged_in() || is_singular()) {
+    if (is_user_logged_in() || is_404() || is_search()) {
         return;
     }
 
