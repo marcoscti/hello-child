@@ -282,6 +282,10 @@ function cache_output()
     }
 
     ob_start(function ($buffer) {
+        // Safety Net: Do not cache if the page contains 404-like text.
+        if (strpos($buffer, 'The page can&rsquo;t be found.') !== false) {
+            return $buffer;
+        }
         $timestamp = date('Y-m-d H:i:s');
         $buffer .= "\n<!-- Página cacheada em $timestamp -->";
         $buffer .= "\n<!-- Desenvolvedor: Marcos Cordeiro - Email: marcosc974@gmail.com -->";
@@ -308,4 +312,4 @@ add_action('save_post', 'clear_all_cache');
 add_action('deleted_post', 'clear_all_cache');
 add_action('edit_post', 'clear_all_cache');
 add_action('init', 'serve_cache');
-add_action('template_redirect', 'cache_output');
+add_action('wp', 'cache_output');
