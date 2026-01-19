@@ -286,7 +286,7 @@ function cache_output()
         if (strpos($buffer, 'The page can&rsquo;t be found.') !== false) {
             return $buffer;
         }
-        $timestamp = date('Y-m-d H:i:s');
+        $timestamp = date_i18n('Y-m-d H:i:s');
         $buffer .= "\n<!-- Página cacheada em $timestamp -->";
         $buffer .= "\n<!-- Desenvolvedor: Marcos Cordeiro - Email: marcosc974@gmail.com -->";
         $cache_file =  ABSPATH . 'cache/' . get_cache_file_name();
