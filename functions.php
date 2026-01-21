@@ -221,8 +221,6 @@ function igesdf_add_dynamic_og_in_head()
     echo '<meta property="og:url" content="' . esc_url($url) . '">' . "\n";
     echo '<meta property="og:site_name" content="' . esc_attr(get_bloginfo('name')) . '">' . "\n";
     echo '<meta property="og:image" content="' . esc_url($og_image) . '">' . "\n";
-    echo '<meta property="og:logo" content="https://igesdf.org.br/wp-content/uploads/2021/04/Logo-IGESDF.jpg">' . "\n";
-
     // Meta description padrão
     echo '<meta name="description" content="' . esc_attr(wp_strip_all_tags($description)) . '">' . "\n";
 
@@ -232,7 +230,7 @@ function igesdf_add_dynamic_og_in_head()
     echo '<meta name="twitter:description" content="' . esc_attr(wp_strip_all_tags($description)) . '">' . "\n";
     echo '<meta name="twitter:image" content="' . esc_url($og_image) . '">' . "\n";
 }
-add_action('wp_head', 'igesdf_add_dynamic_og_in_head', 999);
+add_action('wp_head', 'igesdf_add_dynamic_og_in_head', 5);
 
 /* =========================
    TITLE DINÂMICO
@@ -412,7 +410,12 @@ add_filter('tablepress_wp_search_integration', '__return_false');
 ========================= */
 function get_cache_file_name()
 {
-    return 'cache_' . md5($_SERVER['REQUEST_URI']) . '.html';
+    $post_id = get_queried_object_id();
+    $post_id = $post_id ? (int) $post_id : 0;
+
+    $hash = md5($_SERVER['REQUEST_URI']);
+
+    return "cache_postid-{$post_id}-{$hash}.html";
 }
 
 function serve_cache()
