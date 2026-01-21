@@ -50,7 +50,7 @@ function igesdf_image_create_from_mime($path, $mime)
 }
 
 /**
- * Gera uma OG 1200x630 (JPG) centrada a partir da imagem destacada
+ * Gera uma OG 600x315 (JPG) centrada a partir da imagem destacada
  * - Salva em uploads/og/og-{postID}.jpg
  * - Retorna URL absoluta ou false
  */
