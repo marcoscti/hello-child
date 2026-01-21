@@ -79,8 +79,8 @@ function igesdf_generate_og_image_for_post($post_id)
     $src_w = imagesx($src);
     $src_h = imagesy($src);
 
-    $dst_w = 1200;
-    $dst_h = 630;
+    $dst_w = 600;
+    $dst_h = 315;
     $dst_ratio = $dst_w / $dst_h;
     $src_ratio = $src_w / $src_h;
 
@@ -221,8 +221,6 @@ function igesdf_add_dynamic_og_in_head()
     echo '<meta property="og:url" content="' . esc_url($url) . '">' . "\n";
     echo '<meta property="og:site_name" content="' . esc_attr(get_bloginfo('name')) . '">' . "\n";
     echo '<meta property="og:image" content="' . esc_url($og_image) . '">' . "\n";
-    echo '<meta property="og:image:width" content="1200">' . "\n";
-    echo '<meta property="og:image:height" content="630">' . "\n";
     echo '<meta property="og:logo" content="https://igesdf.org.br/wp-content/uploads/2021/04/Logo-IGESDF.jpg">' . "\n";
 
     // Meta description padrão
