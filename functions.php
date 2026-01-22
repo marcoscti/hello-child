@@ -344,7 +344,7 @@ function create_posttypes()
         ],
         'public'      => true,
         'has_archive' => false,
-        'menu_icon'   => 'dashicons-welcome-widgets-menus',
+        'menu_icon'   => 'dashicons-printer',
         'rewrite'     => ['slug' => 'impresso'],
         'can_export'  => true,
         'show_in_rest' => true,
@@ -377,7 +377,7 @@ function create_posttypes()
         ],
         'public'      => true,
         'has_archive' => false,
-        'menu_icon'   => 'dashicons-media-spreadsheet',
+        'menu_icon'   => 'dashicons-edit-page',
         'rewrite'     => ['slug' => 'producao'],
         'can_export'  => true,
         'taxonomies'  => ['category']
