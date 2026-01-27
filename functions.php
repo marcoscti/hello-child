@@ -219,14 +219,7 @@ function igesdf_add_dynamic_og_in_head()
     echo '<meta property="og:url" content="' . esc_url($url) . '">' . "\n";
     echo '<meta property="og:site_name" content="' . esc_attr(get_bloginfo('name')) . '">' . "\n";
     echo '<meta property="og:image" content="' . esc_url($og_image) . '">' . "\n";
-    // Meta description padrão
     echo '<meta name="description" content="' . esc_attr(wp_strip_all_tags($description)) . '">' . "\n";
-
-    // Twitter Cards
-    echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
-    echo '<meta name="twitter:title" content="' . esc_attr($title) . '">' . "\n";
-    echo '<meta name="twitter:description" content="' . esc_attr(wp_strip_all_tags($description)) . '">' . "\n";
-    echo '<meta name="twitter:image" content="' . esc_url($og_image) . '">' . "\n";
 }
 add_action('wp_head', 'igesdf_add_dynamic_og_in_head', 5);
 
