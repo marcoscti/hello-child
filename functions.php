@@ -1,4 +1,3 @@
-
 <?php
 /**
  * Theme functions and definitions
@@ -7,7 +6,7 @@
  */
 
 /************************ IgesDF ************************/
-
+include('custom-shortcodes.php');
 /* =========================
    OPEN GRAPH DINÂMICO (com GD opcional)
 ========================= */
@@ -307,7 +306,21 @@ function create_posttypes()
         'taxonomies'  => ['category'],
     ]);
     add_post_type_support('ato', 'thumbnail');
-
+	
+	register_post_type('processo', [
+        'labels' => [
+            'name'          => __('Processo Seletivo'),
+            'singular_name' => __('Processo seletivo'),
+            'all_items'     => __('Todos os Processos Seletivos')
+        ],
+        'public'      => true,
+        'has_archive' => false,
+        'menu_icon'   => 'dashicons-groups',
+        'rewrite'     => ['slug' => 'processo'],
+        'can_export'  => true,
+        'taxonomies'  => ['category'],
+    ]);
+    add_post_type_support('processo', 'thumbnail');
     /* Post tipo noticia */
     register_post_type('noticia', [
         'labels' => [
@@ -374,21 +387,6 @@ function create_posttypes()
         'taxonomies'  => ['category']
     ]);
     add_post_type_support('producao', 'thumbnail');
-    /* Post tipo processo seletivo */
-    register_post_type('processo', [
-        'labels' => [
-            'name'          => __('Processo Seletivo'),
-            'singular_name' => __('Processo seletivo'),
-            'all_items'     => __('Todos os Processos Seletivos')
-        ],
-        'public'      => true,
-        'has_archive' => false,
-        'menu_icon'   => 'dashicons-groups',
-        'rewrite'     => ['slug' => 'processo'],
-        'can_export'  => true,
-        'taxonomies'  => ['category'],
-    ]);
-    add_post_type_support('processo', 'thumbnail');
 }
 add_action('init', 'create_posttypes');
 
